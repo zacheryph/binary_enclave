@@ -1,0 +1,13 @@
+[package]
+name = "bincrypt-macro"
+version = "0.1.0"
+authors = ["Zachery Hostens <zacheryph@gmail.com>"]
+edition = "2018"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+proc-macro2 = "1.0.18"
+quote = "1.0.7"
+syn = { version = "1.0.31", features = ["full"] }

@@ -1,0 +1,14 @@
+[package]
+name = "bincrypt"
+version = "0.1.0"
+authors = ["Zachery Hostens <zacheryph@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+bincode = "1.2.1"
+bincrypt-macro = { version = "=0.1.0", path = "./macro" }
+goblin = "0.2.3"
+serde = "1.0.113"
+thiserror = "1.0.20"
