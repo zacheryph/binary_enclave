@@ -1,0 +1,23 @@
+{
+  "pack": {
+    "packname": "bincrypt",
+    "shell_hash": "...",
+    "salts": ["one", "two"],
+    "dcc_prefix": ".",
+    "owners": ["zacheryph"],
+    "hubs": ["one", "two", "three"]
+  },
+  "local": {
+    "bots": [
+      "some 127.0.0.1",
+      "more 127.0.0.2"
+    ],
+    "uid": 1001,
+    "autocron": false,
+    "username": "zacheryph",
+    "datadir": ".bincrypt",
+    "homedir": "/home/zacheryph",
+    "port_min": 13400,
+    "port_max": 14300
+  }
+}
