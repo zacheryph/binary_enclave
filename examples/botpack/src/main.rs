@@ -1,11 +1,11 @@
 mod cmd;
 mod config;
 
-use bincrypt::{bincrypt, Bincrypt};
+use binary_enclave::{enclave, Enclave};
 use config::Config;
 
-#[bincrypt(botpack)]
-pub static CONFIG: Bincrypt<Config, 512> = Bincrypt::new();
+#[enclave(botpack)]
+pub static CONFIG: Enclave<Config, 512> = binary_enclave::Enclave::new();
 
 fn main() {
     let cmd = cmd::parse();

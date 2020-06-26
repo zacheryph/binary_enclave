@@ -7,7 +7,7 @@ use syn::spanned::Spanned;
 use syn::{parse_macro_input, GenericArgument, ItemStatic, PathArguments, Type};
 
 #[proc_macro_attribute]
-pub fn bincrypt(attr: TokenStream, item: TokenStream) -> TokenStream {
+pub fn enclave(attr: TokenStream, item: TokenStream) -> TokenStream {
     let item: ItemStatic = parse_macro_input!(item as ItemStatic);
 
     let (link_section, section) = if cfg!(target_os = "linux") {
@@ -33,11 +33,11 @@ pub fn bincrypt(attr: TokenStream, item: TokenStream) -> TokenStream {
         }
     };
 
-    if segment.ident != Ident::new("Bincrypt", Span::call_site()) {
+    if segment.ident != Ident::new("Enclave", Span::call_site()) {
         item.ty
             .span()
             .unwrap()
-            .error("bincrypt must be of type Bincrypt");
+            .error("enclave must be of type Enclave");
         return TokenStream::new();
     }
 
@@ -56,7 +56,7 @@ pub fn bincrypt(attr: TokenStream, item: TokenStream) -> TokenStream {
         #[link_section = #link_section]
         #item
 
-        impl bincrypt::Locator for #ty {
+        impl binary_enclave::EnclaveLocator for #ty {
             const SECTION: &'static str = #section;
         }
     };

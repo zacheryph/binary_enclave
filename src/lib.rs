@@ -9,18 +9,19 @@ use std::fs;
 use std::io::{Seek, SeekFrom, Write};
 use std::marker::PhantomData;
 
-pub use bincrypt_macro::bincrypt;
-pub use result::{Error, Result};
+pub use binary_enclave_macro::enclave;
+pub use crate::result::{Error, Result};
 
-pub struct Bincrypt<T, const SIZE: usize>([u8; SIZE], PhantomData<T>);
+pub struct Enclave<T, const SIZE: usize>([u8; SIZE], PhantomData<T>);
 
-pub trait Locator {
+#[doc(hidden)]
+pub trait EnclaveLocator {
     const SECTION: &'static str;
 }
 
-impl<T, const SIZE: usize> Bincrypt<T, SIZE>
+impl<T, const SIZE: usize> Enclave<T, SIZE>
 where
-    T: Default + Locator + Serialize + DeserializeOwned,
+    T: Default + EnclaveLocator + Serialize + DeserializeOwned,
 {
     pub const fn new() -> Self {
         Self([0; SIZE], PhantomData)

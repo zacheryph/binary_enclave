@@ -1,5 +1,7 @@
 use thiserror::Error;
 
+pub type Result<T, E = Error> = std::result::Result<T, E>;
+
 #[derive(Debug, Error)]
 pub enum Error {
     #[error("Payload exceeds section size. {} > {}.", payload, section)]
@@ -20,5 +22,3 @@ pub enum Error {
     #[error("Unknown Error")]
     Other,
 }
-
-pub type Result<T, E = Error> = std::result::Result<T, E>;

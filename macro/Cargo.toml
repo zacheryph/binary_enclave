@@ -1,5 +1,5 @@
 [package]
-name = "bincrypt-macro"
+name = "binary_enclave_macro"
 version = "0.1.0"
 authors = ["Zachery Hostens <zacheryph@gmail.com>"]
 edition = "2018"
