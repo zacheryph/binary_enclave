@@ -4,6 +4,11 @@ version = "0.1.0"
 authors = ["Zachery Hostens <zacheryph@gmail.com>"]
 edition = "2018"
 categories = ["config"]
+readme = "README.md"
+license = "MIT"
+homepage = "https://github.com/zacheryph/binary_enclave"
+repository = "https://github.com/zacheryph/binary_enclave"
+description = "embed modifiable configuration or other data within a binary directly"
 
 [dependencies]
 bincode = "^1.3"

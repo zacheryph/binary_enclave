@@ -3,6 +3,10 @@ name = "binary_enclave_macro"
 version = "0.1.0"
 authors = ["Zachery Hostens <zacheryph@gmail.com>"]
 edition = "2018"
+license = "MIT"
+homepage = "https://github.com/zacheryph/binary_enclave"
+repository = "https://github.com/zacheryph/binary_enclave"
+description = "macro crate for binary_enclave"
 
 [lib]
 proc-macro = true
