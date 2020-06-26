@@ -6,6 +6,17 @@ use quote::quote;
 use syn::spanned::Spanned;
 use syn::{parse_macro_input, GenericArgument, ItemStatic, PathArguments, Type};
 
+/// setup required linker options and trait impls
+///
+/// this puts in to place whats required for our enclave. Without
+/// it, it will not be locatable for writing to after compilation.
+/// Some systems may limit the length of section names. It is
+/// recommended to keep the section name short and simple.
+///
+/// ```
+/// #[enclave(binary_section_name)]
+/// pub static OUR_STATIC: Enclave<ConfStruct, 128> = Enclave::new()
+/// ```
 #[proc_macro_attribute]
 pub fn enclave(attr: TokenStream, item: TokenStream) -> TokenStream {
     let item: ItemStatic = parse_macro_input!(item as ItemStatic);
