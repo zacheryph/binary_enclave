@@ -11,6 +11,14 @@ the Wraith Botpack [https://github.com/wraith/wraith].
 
 ### Basic Usage
 
+[![Latest Version]][crates.io] ![License]
+
+[Latest Version]: https://img.shields.io/crates/v/binary_enclave.svg?style=for-the-badge
+[crates.io]: https://crates.io/crates/binary_enclave
+[License]: https://img.shields.io/crates/l/binary_enclave.svg?style=for-the-badge
+
+---
+
 ```rust
 use binary_enclave::{enclave, Enclave}
 
