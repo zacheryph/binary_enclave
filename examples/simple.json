@@ -1,0 +1,7 @@
+{
+  "name": "enclave",
+  "kind": "embedded configuration",
+  "amount": 42,
+  "features": ["nanoserde", "ring"],
+  "bitfield": null
+}

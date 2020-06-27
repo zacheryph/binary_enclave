@@ -16,14 +16,19 @@
 //! ### Basic Usage
 //!
 //! ```edition2018
-//! use binary_enclave::{enclave, Enclave}
+//! use serde::{Serialize, Deserialize};
+//! use binary_enclave::{enclave, Enclave};
+//!
+//! #[derive(Default, Serialize, Deserialize)]
+//! struct Config { some: u32, values: String };
 //!
 //! #[enclave(appconfig)]
-//! pub static CONFIG: Enclave<Config, 512> = Enclave::new();
+//! pub static CONFIG: Enclave<Config, 128> = Enclave::new();
 //!
-//! fn main() {
+//! fn main() -> Result<(), Box<dyn std::error::Error>> {
 //!     let conf = CONFIG.decode()?;
-//!     let res = CONFIG.write(&Config{ some: 43, values: "see" })?;
+//!     let res = CONFIG.write(&Config{ some: 43, values: "see".to_string() })?;
+//!     Ok(())
 //! }
 //! ```
 

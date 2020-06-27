@@ -1,6 +1,6 @@
 {
   "pack": {
-    "packname": "bincrypt",
+    "packname": "binary enclave",
     "shell_hash": "...",
     "salts": ["one", "two"],
     "dcc_prefix": ".",
@@ -15,7 +15,7 @@
     "uid": 1001,
     "autocron": false,
     "username": "zacheryph",
-    "datadir": ".bincrypt",
+    "datadir": ".binary_enclave",
     "homedir": "/home/zacheryph",
     "port_min": 13400,
     "port_max": 14300
