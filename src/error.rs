@@ -18,6 +18,10 @@ pub enum Error {
     #[error("Payload decoding error")]
     PayloadDecoding(#[from] Box<bincode::ErrorKind>),
 
+    /// Payload checksum does not match payload. Binary tampering?
+    #[error("Payload checksum error")]
+    PayloadChecksum,
+
     /// Failed to interpret binary. Simply put, this should never happen.
     #[error("Binary decoding error")]
     BinaryDecoding(#[from] goblin::error::Error),

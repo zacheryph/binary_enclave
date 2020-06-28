@@ -18,10 +18,12 @@ static CONFIG: Enclave<Config, 128> = Enclave::new();
 fn main() {
     let mut args = std::env::args();
     args.next().unwrap();
-    let conf = CONFIG.decode().unwrap();
 
     match args.next().as_deref() {
-        None => println!("{}", to_string_pretty(&conf).unwrap()),
+        None => {
+            let conf = CONFIG.decode().unwrap();
+            println!("{}", to_string_pretty(&conf).unwrap())
+        },
         Some("tpl") => println!("{}", to_string_pretty(&Config::default()).unwrap()),
         Some(f) => {
             let buf = std::fs::read(f).unwrap();

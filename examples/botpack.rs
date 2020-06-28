@@ -48,17 +48,19 @@ pub static CONFIG: Enclave<Config, 512> = Enclave::new();
 
 // usage: ./target/debug/examples/botpack [tpl|examples/botpack.json]
 fn main() {
-  let mut args = std::env::args();
-  args.next().unwrap();
-  let conf = CONFIG.decode().unwrap();
+    let mut args = std::env::args();
+    args.next().unwrap();
 
-  match args.next().as_deref() {
-      None => println!("{}", to_string_pretty(&conf).unwrap()),
-      Some("tpl") => println!("{}", to_string_pretty(&Config::default()).unwrap()),
-      Some(f) => {
-          let buf = std::fs::read(f).unwrap();
-          let inbound: Config = serde_json::from_slice(&buf).unwrap();
-          CONFIG.write(&inbound).unwrap();
-      },
-  };
+    match args.next().as_deref() {
+        None => {
+            let conf = CONFIG.decode().unwrap();
+            println!("{}", to_string_pretty(&conf).unwrap());
+        },
+        Some("tpl") => println!("{}", to_string_pretty(&Config::default()).unwrap()),
+        Some(f) => {
+            let buf = std::fs::read(f).unwrap();
+            let inbound: Config = serde_json::from_slice(&buf).unwrap();
+            CONFIG.write(&inbound).unwrap();
+        },
+    };
 }

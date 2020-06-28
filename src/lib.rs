@@ -36,7 +36,9 @@
 mod error;
 
 use serde::{de::DeserializeOwned, Serialize};
+use std::collections::hash_map::DefaultHasher;
 use std::fs;
+use std::hash::Hasher;
 use std::io::{Seek, SeekFrom, Write};
 use std::marker::PhantomData;
 
@@ -57,7 +59,13 @@ pub trait EnclaveLocator {
 /// The size given will increase the size of the binary linearly.
 /// Setting this to an extremely large size will give you an extremely
 /// large binary.
-pub struct Enclave<T, const SIZE: usize>([u8; SIZE], PhantomData<T>);
+#[repr(C)]
+pub struct Enclave<T, const SIZE: usize> {
+    len: usize,
+    checksum: u64,
+    pack: [u8; SIZE],
+    _phantom: PhantomData<T>,
+}
 
 impl<T, const SIZE: usize> Enclave<T, SIZE>
 where
@@ -65,18 +73,34 @@ where
 {
     /// Gives us a new Enclave with the size specified.
     pub const fn new() -> Self {
-        Self([0; SIZE], PhantomData)
+        Self {
+            len: 0,
+            checksum: 0,
+            pack: [0; SIZE],
+            _phantom: PhantomData
+        }
     }
 
     /// Deserialize the embedded Enclave into an instance of our specified type.
-    pub fn decode(&self) -> T {
-        match bincode::deserialize(&self.0) {
-            Ok(s) => s,
-            Err(e) => {
-                println!("Deserialization Error. Ignoring. Bad Binary? {}", e);
-                Default::default()
+    pub fn decode(&self) -> Result<T> {
+        let payload: Result<T> = bincode::deserialize(&self.pack).map_err(From::from);
+        match payload {
+            Err(e) => Err(e),
+            Ok(payload) => {
+                let mut hasher = DefaultHasher::new();
+                hasher.write(&self.pack[0..self.len as usize]);
+                if hasher.finish() == self.checksum {
+                    Ok(payload)
+                } else {
+                    Err(Error::PayloadChecksum)
+                }
             }
         }
+    }
+
+    /// Deserialize the embedded Enclave or give a default instance
+    pub fn decode_or_default(&self) -> T {
+        self.decode().unwrap_or_default()
     }
 
     /// Write a new payload into the binary. This takes place
@@ -152,8 +176,13 @@ fn write_binary<T: Serialize>(
         });
     }
 
+    let mut hasher = DefaultHasher::new();
+    hasher.write(&payload);
+
     let mut data = std::io::Cursor::new(data);
     data.seek(SeekFrom::Start(offset as u64))?;
+    data.write_all(&payload.len().to_ne_bytes())?;
+    data.write_all(&hasher.finish().to_ne_bytes())?;
     data.write_all(&payload)?;
     let data = data.into_inner();
 
