@@ -157,8 +157,8 @@ where
 }
 
 fn read_binary() -> Result<Vec<u8>> {
-    let args: Vec<String> = std::env::args().collect();
-    let bytes = fs::read(&args[0])?;
+    let bin_path = std::env::current_exe()?;
+    let bytes = fs::read(bin_path)?;
     Ok(bytes)
 }
 
@@ -186,11 +186,12 @@ fn write_binary<T: Serialize>(
     data.write_all(&payload)?;
     let data = data.into_inner();
 
-    let args: Vec<String> = std::env::args().collect();
-    let file = &args[0];
-    let tmpfile = format!("{}.new", file);
-
+    let file = std::env::current_exe()?;
     let perms = fs::metadata(&file)?.permissions();
+    let file_name = file.file_name().ok_or_else(|| Error::BinaryNotLocated)?;
+    let mut tmpfile = Clone::clone(&file);
+    tmpfile.set_file_name(format!("{}.new", &file_name.to_string_lossy()));
+
     fs::write(&tmpfile, &data)?;
     fs::rename(&tmpfile, &file)?;
     fs::set_permissions(&file, perms)?;

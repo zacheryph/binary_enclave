@@ -30,6 +30,10 @@ pub enum Error {
     #[error("File Handling Error")]
     File(#[from] std::io::Error),
 
+    /// The binary could not be located
+    #[error("Binary not located")]
+    BinaryNotLocated,
+
     /// The best kind of errors.
     #[error("Unknown Error")]
     Other,
