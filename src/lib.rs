@@ -85,12 +85,12 @@ where
     /// is required due to restrictions on some OS of modifying
     /// a binary currently being executing.
     pub fn write(&self, payload: &T) -> Result<usize> {
-        self.__write(payload)
+        self._write(payload)
     }
 
     #[cfg(target_os = "macos")]
     #[doc(hidden)]
-    pub fn __write(&self, payload: &T) -> Result<usize> {
+    pub fn _write(&self, payload: &T) -> Result<usize> {
         use goblin::mach;
 
         let mut data = read_binary()?;
@@ -112,7 +112,7 @@ where
 
     #[cfg(target_os = "linux")]
     #[doc(hidden)]
-    pub fn __write(&self, payload: &T) -> Result<usize> {
+    pub fn _write(&self, payload: &T) -> Result<usize> {
         use goblin::elf::Elf;
 
         let mut data = read_binary()?;
@@ -127,7 +127,7 @@ where
     }
 
     #[cfg(not(any(target_os = "macos", target_os = "linux")))]
-    pub fn write(&self, payload: &T) -> Result<usize> {
+    pub fn _write(&self, payload: &T) -> Result<usize> {
         panic!("Not Supported")
     }
 }
