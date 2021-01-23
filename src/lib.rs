@@ -147,7 +147,7 @@ where
             .find(|sec| &elf.shdr_strtab[sec.sh_name] == T::SECTION)
             .ok_or_else(|| Error::SectionNotFound("Binary Section not found".into()))?;
 
-        write_binary(&mut data, &payload, section.sh_offset, section.sh_size)
+        write_binary(&mut data, &payload, section.sh_offset as usize, section.sh_size as usize)
     }
 
     #[cfg(not(any(target_os = "macos", target_os = "linux")))]
