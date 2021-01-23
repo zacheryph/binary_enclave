@@ -16,7 +16,7 @@ exclude = [".gitignore", "examples/"]
 [dependencies]
 bincode = "^1.3"
 binary_enclave_macro = { version = "=0.1.0", path = "macro" }
-goblin = "^0.2"
+goblin = "^0.3"
 serde = "^1.0"
 thiserror = "^1.0"
 
