@@ -144,7 +144,7 @@ where
         let section = elf
             .section_headers
             .iter()
-            .find(|sec| &elf.shdr_strtab[sec.sh_name] == ".bincrypt")
+            .find(|sec| &elf.shdr_strtab[sec.sh_name] == T::SECTION)
             .ok_or_else(|| Error::SectionNotFound("Binary Section not found".into()))?;
 
         write_binary(&mut data, &payload, section.sh_offset, section.sh_size)
