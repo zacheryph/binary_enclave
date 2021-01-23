@@ -35,6 +35,5 @@ fn main() {
 ## Outstanding Items
 
 - PE (Windows) support
-- Payload Checksum
 - Payload Encryption
 - Github Actions
